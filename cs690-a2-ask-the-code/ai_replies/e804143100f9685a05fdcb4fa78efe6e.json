@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "e804143100f9685a05fdcb4fa78efe6e",
+  "asked_at": "2026-10-03T02:08:55+00:00",
+  "input_tokens": 1743,
+  "output_tokens": 50,
+  "text": "{\"answer\":\"Calling raise_for_status() raises HTTPError: 404 responses produce a Client Error message, while 500 responses produce a Server Error message, including the reason and URL.\",\"file\":\"models.py\",\"line\":1015}"
+}

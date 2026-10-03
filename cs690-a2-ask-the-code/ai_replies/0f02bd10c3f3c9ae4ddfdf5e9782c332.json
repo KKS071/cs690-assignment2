@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "0f02bd10c3f3c9ae4ddfdf5e9782c332",
+  "asked_at": "2026-10-03T02:21:10+00:00",
+  "input_tokens": 488,
+  "output_tokens": 40,
+  "text": "{\"answer\":\"Header names are made case-insensitive by lowercasing keys for lookups; the original key is stored alongside its value.\",\"file\":\"structures.py\",\"line\":49}"
+}

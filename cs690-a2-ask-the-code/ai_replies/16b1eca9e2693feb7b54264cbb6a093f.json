@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "16b1eca9e2693feb7b54264cbb6a093f",
+  "asked_at": "2026-10-03T02:20:59+00:00",
+  "input_tokens": 477,
+  "output_tokens": 36,
+  "text": "{\"answer\":\"It sends a User-Agent string in the format \\\"python-requests/{__version__}\\\" by default.\",\"file\":\"utils.py\",\"line\":897}"
+}

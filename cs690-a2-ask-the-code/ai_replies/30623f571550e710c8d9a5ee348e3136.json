@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "30623f571550e710c8d9a5ee348e3136",
+  "asked_at": "2026-10-03T02:27:49+00:00",
+  "input_tokens": 54900,
+  "output_tokens": 45,
+  "text": "{\"answer\":\"It is built as `\\\"Basic \\\"` followed by the Base64 encoding of `username:password`, using Latin-1 encoding for string credentials.\",\"file\":\"auth.py\",\"line\":62}"
+}

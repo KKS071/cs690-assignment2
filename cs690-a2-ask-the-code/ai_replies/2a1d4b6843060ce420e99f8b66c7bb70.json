@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "2a1d4b6843060ce420e99f8b66c7bb70",
+  "asked_at": "2026-10-03T02:27:47+00:00",
+  "input_tokens": 54904,
+  "output_tokens": 35,
+  "text": "{\"answer\":\"A POST is changed to GET when the redirect response status is 301 (Moved Permanently).\",\"file\":\"sessions.py\",\"line\":350}"
+}

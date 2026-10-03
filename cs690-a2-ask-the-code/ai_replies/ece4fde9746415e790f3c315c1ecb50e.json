@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "ece4fde9746415e790f3c315c1ecb50e",
+  "asked_at": "2026-10-03T02:27:43+00:00",
+  "input_tokens": 54902,
+  "output_tokens": 71,
+  "text": "{\"answer\":\"It checks proxies in priority order: scheme plus hostname, scheme, `all://` plus hostname, then `all`, and returns the first matching proxy.\",\"file\":\"utils.py\",\"line\":849}"
+}

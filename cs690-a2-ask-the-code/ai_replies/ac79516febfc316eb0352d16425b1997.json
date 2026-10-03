@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "ac79516febfc316eb0352d16425b1997",
+  "asked_at": "2026-10-03T02:21:08+00:00",
+  "input_tokens": 749,
+  "output_tokens": 53,
+  "text": "{\"answer\":\"It raises an HTTPError: a 404 produces a \\\"404 Client Error\\\" message, while a 500 produces a \\\"500 Server Error\\\" message, including the reason and URL.\",\"file\":\"models.py\",\"line\":1015}"
+}

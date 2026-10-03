@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "64d6a4015611d41d0f5ca4ef06a776e1",
+  "asked_at": "2026-10-03T02:08:57+00:00",
+  "input_tokens": 1994,
+  "output_tokens": 57,
+  "text": "{\"answer\":\"Requests stores headers in a CaseInsensitiveDict, making header-name lookups case-insensitive. Response headers are created from the underlying response headers with CaseInsensitiveDict(getattr(resp, \\\"headers\\\", {})).\",\"file\":\"adapters.py\",\"line\":375}"
+}

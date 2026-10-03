@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "2c905f850c638d93326030adece1fcc5",
+  "asked_at": "2026-10-03T02:27:45+00:00",
+  "input_tokens": 54917,
+  "output_tokens": 52,
+  "text": "{\"answer\":\"The single request's setting wins; if it is None, the session setting is used. For dictionary settings, request values override session values, while None-valued merged keys are removed.\",\"file\":\"sessions.py\",\"line\":70}"
+}

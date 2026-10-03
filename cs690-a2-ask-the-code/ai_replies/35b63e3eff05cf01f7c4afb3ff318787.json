@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "35b63e3eff05cf01f7c4afb3ff318787",
+  "asked_at": "2026-10-03T02:27:53+00:00",
+  "input_tokens": 54905,
+  "output_tokens": 44,
+  "text": "{\"answer\":\"Requests uses CaseInsensitiveDict, which lowercases header names for lookup while storing the original casing alongside each value; the last casing set is retained.\",\"file\":\"structures.py\",\"line\":49}"
+}
