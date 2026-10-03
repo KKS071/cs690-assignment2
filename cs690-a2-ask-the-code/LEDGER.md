@@ -97,3 +97,46 @@ risk:      The public tests do not cover files with Windows line endings,
            decorators spread over several lines, or async def inside a class.
            The hidden tests check the same rules on more cases, so a case I
            did not think of could still fail.
+
+## Entry 4
+artifact:  askcode/search_words.py at commit 9bd684c
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
+prompts:   asked the assistant to implement search_words from the starter
+           docstring and tests; prompts/search-words-01.md
+review:    The assistant drafted the implementation. I read it against steps 1
+           to 6 in the docstring: question words minus STOPWORDS, a word set
+           per chunk that includes the chunk name, weight log(N / df) with
+           words found in no chunk skipped, score rounded to 6 places, and a
+           sort on (-score, original position) so ties keep file order. I
+           removed the noqa comments on the imports because they are now
+           used. I did not change the logic.
+checks:    pytest tests/test_search_words.py -v: 7 passed
+evidence:  HANDOUT Step 3, search_words.py docstring steps 1 to 6; RUBRIC A2, A6
+risk:      This is the simple version without BM25's length and repetition
+           adjustments. Hidden tests could cover edge cases I did not test,
+           such as repeated question words or an empty chunk list.
+
+## Entry 5
+artifact:  results/retrieval_words.csv at commit 9bd684c
+tool:      askcode run_eval (no AI call), 2026-10-02
+prompts:   none sent to the program; the assistant helped me read the misses;
+           prompts/search-words-01.md
+review:    I read every row of the CSV. hit and hit_rank are computed by
+           run_eval, so there was nothing to mark by hand. q09 and q10 are
+           n/a because the code cannot answer them. The right function was
+           retrieved for q01, q02, q05 and q07 (all at rank 1) and missed for
+           q03, q04, q06 and q08.
+checks:    python -m askcode.run_eval --search words --no-ai: right function
+           in the top 3 for 4 of 8 answerable questions;
+           python -m askcode.check_freeze: PASS, questions last changed in
+           3cbf584 before the first results commit 9bd684c
+evidence:  HANDOUT Step 3; RUBRIC B2, B3
+risk:      Only eight answerable questions, so one question moves the rate by
+           12.5 points. The misses are not yet explained in my own words.
+dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
+result:    right function in the top 3 for 4 of 8 answerable questions (50%);
+           results/retrieval_words.csv
+changed:   No change to search_words.py. I recorded q03, q04, q06 and q08 as retrieval
+           misses to label in the fault table in Step 5 and to compare against meaning 
+           search in Step 7.
+
