@@ -6,9 +6,9 @@ Check your work with:  pytest tests/test_search_words.py
 
 from __future__ import annotations
 
-import math  # noqa: F401  (you will need it)
+import math
 
-from askcode.core import STOPWORDS, Chunk, words  # noqa: F401
+from askcode.core import STOPWORDS, Chunk, words
 
 
 def search_words(question: str, chunks: list[Chunk], k: int = 3) -> list[Chunk]:
@@ -34,4 +34,32 @@ def search_words(question: str, chunks: list[Chunk], k: int = 3) -> list[Chunk]:
     This is the core idea of BM25, the standard keyword search (slide 45). BM25 adds
     adjustments for how often a word repeats and for chunk length.
     """
-    raise NotImplementedError("Step 3: write search_words in askcode/search_words.py")
+    if not chunks:
+        return []
+
+    # 1. Question words, without the stopwords.
+    question_words = set(words(question)) - STOPWORDS
+    if not question_words:
+        return []
+
+    # 2. The set of words in each chunk (its name counts too).
+    chunk_words = [set(words(c.name + "\n" + c.text)) for c in chunks]
+
+    # 3 and 4. Weight each question word by how rare it is across all chunks.
+    n = len(chunks)
+    weights: dict[str, float] = {}
+    for w in question_words:
+        df = sum(1 for cw in chunk_words if w in cw)
+        if df > 0:  # ignore question words that no chunk contains
+            weights[w] = math.log(n / df)
+
+    # 5. Score each chunk: add up the weights of the question words it contains.
+    scored = []
+    for position, (chunk, cw) in enumerate(zip(chunks, chunk_words)):
+        score = round(sum(weight for w, weight in weights.items() if w in cw), 6)
+        if score > 0:
+            scored.append((score, position, chunk))
+
+    # 6. Highest score first; ties keep the original order (lower position first).
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    return [chunk for _, _, chunk in scored[:k]]
