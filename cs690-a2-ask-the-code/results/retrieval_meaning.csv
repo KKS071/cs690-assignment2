@@ -1,0 +1,11 @@
+id,question,expected_file,expected_function,retrieved,hit,hit_rank
+q01,What User-Agent string does requests send by default?,utils.py,default_user_agent,utils.py::default_user_agent; utils.py::default_headers; auth.py::_basic_auth_str,yes,1
+q02,What character encoding does requests assume for a text response when the Content-Type header gives no charset?,utils.py,get_encoding_from_headers,models.py::Response.text; utils.py::get_encoding_from_headers; models.py::Response.json,yes,2
+q03,How does requests pick which proxy to use for a given URL?,utils.py,select_proxy,adapters.py::HTTPAdapter.request_url; utils.py::select_proxy; utils.py::should_bypass_proxies,yes,2
+q04,"When both the session and a single request set the same option, which one wins, and what happens if the request sets it to None?",sessions.py,merge_setting,sessions.py::merge_setting; sessions.py::Session.options; sessions.py::Session.send,yes,1
+q05,"After a redirect, when does a POST request get turned into a GET?",sessions.py,SessionRedirectMixin.rebuild_method,sessions.py::SessionRedirectMixin.rebuild_method; sessions.py::Session.get; sessions.py::SessionRedirectMixin.get_redirect_target,yes,1
+q06,How is the Authorization header value built for basic auth?,auth.py,_basic_auth_str,auth.py::HTTPBasicAuth.__call__; auth.py::HTTPProxyAuth.__call__; auth.py::_basic_auth_str,yes,3
+q07,How does requests raise an error for a 404 or 500 response?,models.py,Response.raise_for_status,models.py::Response.raise_for_status; sessions.py::SessionRedirectMixin.rebuild_method; exceptions.py::RequestException.__init__,yes,1
+q08,"How does requests make header names case-insensitive, and how are they stored?",structures.py,CaseInsensitiveDict.__setitem__,models.py::PreparedRequest.prepare_headers; utils.py::default_headers; models.py::Response.__init__,no,
+q09,"Which function lets me send a request with await, using async/await?",,,adapters.py::BaseAdapter.send; api.py::request; sessions.py::Session.send,n/a,
+q10,Where does requests store responses on disk so repeated requests are served from a cache?,,,auth.py::HTTPDigestAuth.__call__; models.py::PreparedRequest.__init__; sessions.py::Session.request,n/a,
