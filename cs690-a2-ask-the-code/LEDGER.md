@@ -336,7 +336,7 @@ changed:   none to the code or prompt. Meaning search recovered q03, q04 and
            missed by both.
 
 ## Entry 14
-artifact:  REPORT.md at commit ba22221
+artifact:  REPORT.md at commit 182031f
 tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
 prompts:   asked the assistant to draft the report from my results;
            prompts/report-01.md
