@@ -51,7 +51,7 @@ Pricing page:	https://developers.openai.com/api/docs/pricing
 ## Entry 2
 artifact: questions/questions.json at commit [SHA: 3cbf584]
 tool: Claude (claude.ai chat), Sonnet 5.5, 2026-10-02
-prompts: asked the AI assistant to suggest ten questions about requests, checked
+prompts: asked the assistant to suggest ten questions about requests, checked
          against the corpus, and draft expected answers; prompts/questions-01.md
 
 review:    The assistant proposed the ten questions, the target functions and
@@ -140,3 +140,44 @@ changed:   No change to search_words.py. I recorded q03, q04, q06 and q08 as ret
            misses to label in the fault table in Step 5 and to compare against meaning 
            search in Step 7.
 
+## Entry 6
+artifact:  askcode/prompt.py at commit [SHA: cefb948]
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
+prompts:   asked the assistant to write build_prompt_five_part from the starter
+           docstring and tests; prompts/five-part-v1.md
+review:    The assistant drafted the system prompt and the builder. I read the
+           printed prompt from the dry run and checked it against requirements
+           1 to 6: the five labels each start a line in the required order; the
+           Rules say to answer only from the code shown and to reply "not found
+           in the code shown" with null file and line; the Example is a made-up
+           clamp function, not one of my ten questions; the Reply format names
+           answer, file and line. The system text is a module constant, so it is
+           identical for every question.
+checks:    pytest tests/test_prompt.py tests/test_answer.py -v: 22 passed;
+           python -m askcode.run_eval --search words --context top3 --prompt
+           five_part --dry-run: prompt printed for q01, estimate about 17,763
+           input tokens, about $0.0036 with openai gpt-5.6-luna
+evidence:  HANDOUT Step 4 part A, prompt.py requirements 1 to 6;
+           RUBRIC A3, A6
+risk:      The prompt has not been run against the model yet, so I do not know
+           how well the rules and example work. The example uses a made-up file
+           and line the model may imitate.
+
+## Entry 7
+artifact:  askcode/answer.py at commit [SHA: cefb948]
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
+prompts:   asked the assistant to write parse_reply from the starter docstring
+           and tests; prompts/five-part-v1.md
+review:    The assistant drafted parse_reply. I read it against rules 1 to 5:
+           one optional code fence whose first line is ``` or ```json and last
+           line is ```; json.loads on the rest; an exact key set check; answer
+           must be a non-empty string; file a non-empty string or null; line an
+           int of at least 1 or null, with bool excluded because bool is an int
+           in Python; file and line both null or both set. Every failure raises
+           BadReply. I did not change the logic.
+checks:    pytest tests/test_answer.py -v: 15 passed (the full run of
+           tests/test_prompt.py and tests/test_answer.py shows 22 passed)
+evidence:  HANDOUT Step 4 part B, answer.py rules 1 to 5; RUBRIC A4, A6
+risk:      Replies the public tests do not cover, such as a fence that is
+           indented or a duplicate key, may be handled differently by the hidden
+           tests.
