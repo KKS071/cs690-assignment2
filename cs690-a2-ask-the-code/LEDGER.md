@@ -183,7 +183,7 @@ risk:      Replies the public tests do not cover, such as a fence that is
            tests.
 
 ## Entry 8
-artifact:  results/top3_words_five_part.csv at commit df05f3a
+artifact:  results/top3_words_five_part.csv at commit 3431323
 tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
 prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
            prompts/five-part-v1.md
@@ -195,7 +195,7 @@ checks:    python -m askcode.run_eval --search words --context top3 --prompt
            16,913 input tokens, 385 output tokens, $0.0038
 evidence:  HANDOUT Step 5; RUBRIC B3, B5, C2
 risk:      one run only; a fresh run may answer differently. My marks are
-           judgment calls on partial answers, such as q05.
+           judgment calls on partial answers, such as q05. The first commit of this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env. I corrected .env and reran from saved replies, so the submitted file (3431323) carries $0.40 and $1.80. No API call was repeated.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
 result:    correct 5 of 10, 16,913 input tokens; results/top3_words_five_part.csv
 changed:   four of the five wrong answers (q03, q04, q06, q08) had the right
@@ -204,7 +204,7 @@ changed:   four of the five wrong answers (q03, q04, q06, q08) had the right
            in Step 7 instead
 
 ## Entry 9
-artifact:  results/gold_five_part.csv at commit df05f3a
+artifact:  results/gold_five_part.csv at commit 3431323
 tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
 prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
            prompts/five-part-v1.md
@@ -215,7 +215,7 @@ checks:    python -m askcode.run_eval --context gold --prompt five_part:
            394 output tokens, $0.0017
 evidence:  HANDOUT Step 5 item 3; RUBRIC B3, B5, C2
 risk:      one run only. q06 left out the Latin-1 encoding step and I counted it
-           as correct because the main behavior was right.
+           as correct because the main behavior was right. The first commit of this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env. I corrected .env and reran from saved replies, so the submitted file (3431323) carries $0.40 and $1.80. No API call was repeated.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
 result:    correct 9 of 10, 6,075 input tokens; results/gold_five_part.csv
 changed:   gold answered q03, q04, q06 and q08 correctly, which confirms those
@@ -223,7 +223,7 @@ changed:   gold answered q03, q04, q06 and q08 correctly, which confirms those
            code, so it is a generation failure
 
 ## Entry 10
-artifact:  results/whole_five_part.csv at commit df05f3a
+artifact:  results/whole_five_part.csv at commit 3431323
 tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
 prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
            prompts/five-part-v1.md
@@ -235,7 +235,7 @@ checks:    python -m askcode.run_eval --context whole --prompt five_part --dry-r
            400 output tokens, $0.1103
 evidence:  HANDOUT Step 5; RUBRIC B3, B5, C5
 risk:      one run only; the codebase is about 55,000 tokens, so this result may
-           not hold for a codebase too large to paste
+           not hold for a codebase too large to paste. The first commit of this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env. I corrected .env and reran from saved replies, so the submitted file (3431323) carries $0.40 and $1.80. No API call was repeated.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
 result:    correct 9 of 10, 549,048 input tokens, $0.1103;
            results/whole_five_part.csv
@@ -244,3 +244,71 @@ changed:   whole matched gold's 9 of 10 at about 90 times the input tokens, and
            and will use these numbers for the paste-or-search decision in the
            report
 
+## Entry 11
+artifact:  results/top3_words_minimal.csv at commit 3431323
+tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
+prompts:   the given minimal prompt (build_prompt_minimal in askcode/core.py);
+           no prompt of mine; prompts/five-part-v1.md covers the session
+review:    read all ten replies and marked the correct column: yes for q01
+           only. q02 to q08 are no because valid_json is no (line given as a
+           string such as "340-351"). q09 and q10 are no because they fill in
+           file and line instead of nulls, which my answer key requires.
+checks:    python -m askcode.run_eval --search words --context top3 --prompt
+           minimal: valid JSON 3 of 10, right place 1 of 10, 13,123 input
+           tokens, 2,498 output tokens, $0.0056
+evidence:  HANDOUT Step 6; RUBRIC B3, B5, C3
+risk:      one run only. My marking of q09 and q10 is strict; under a lenient
+           reading the correct count would be 3 of 10.
+dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
+result:    correct 1 of 10, 13,123 input tokens, $0.0056;
+           results/top3_words_minimal.csv
+changed:   the five-part prompt beat the minimal one on valid JSON (10 against
+           3), right place (6 against 1) and correct (5 against 1), at a lower
+           cost, so I kept the five-part prompt for the other runs
+
+## Entry 12
+artifact:  askcode/search_meaning.py at commit ef56fed
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
+prompts:   asked the assistant to implement cosine and MeaningIndex from the
+           starter docstring and tests; prompts/meaning-search-01.md
+review:    The assistant drafted the code. I read it against the docstring
+           rules: cosine raises ValueError when the lengths differ and returns
+           0.0 for a zero-length vector; MeaningIndex embeds every chunk once,
+           as name + "\n" + text, in the order of chunks; search embeds only
+           the question and sorts by (-score, position) so ties keep the chunk
+           order; it always returns k chunks. I removed the noqa comment on
+           import math because it is now used. I did not change the logic.
+checks:    pytest tests/test_search_meaning.py -v: 6 passed;
+           python -m askcode.run_eval --search meaning --no-ai: ran with the
+           real local model, right function in the top 3 for 7 of 8 answerable
+           questions
+evidence:  HANDOUT Step 7, search_meaning.py docstring; RUBRIC A5, A6
+risk:      The public tests use fake vectors, so only the real run exercised
+           the embedding model. Hidden tests may check edge cases such as an
+           empty chunk list or k larger than the number of chunks.
+
+## Entry 13
+artifact:  results/retrieval_meaning.csv at commit ef56fed
+tool:      askcode run_eval (no AI call; local model BAAI/bge-small-en-v1.5),
+           2026-10-02
+prompts:   none sent to a program; prompts/meaning-search-01.md
+review:    read every row of the CSV. hit and hit_rank are computed by
+           run_eval. The right function was in the top 3 for q01 to q07
+           (ranks 1, 2, 2, 1, 1, 3, 1) and missed for q08. q09 and q10 are n/a
+           and still returned three unrelated chunks each.
+checks:    python -m askcode.run_eval --search meaning --no-ai: right function
+           in the top 3 for 7 of 8 answerable questions;
+           python -m askcode.summary: Table 4 shows meaning search ranking
+           q03, q04 and q06 where word search did not, and word search ranking
+           q02 higher (1 against 2)
+evidence:  HANDOUT Step 7; RUBRIC B3, C4
+risk:      only eight answerable questions, so one question moves the rate by
+           12.5 points. I did not run the AI on the meaning search results, so
+           I do not know whether 7 of 8 retrieval turns into more correct
+           answers.
+dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
+result:    right function in the top 3 for 7 of 8 answerable questions (88%)
+           against 4 of 8 for word search; results/retrieval_meaning.csv
+changed:   none to the code or prompt. Meaning search recovered q03, q04 and
+           q06, which were retrieval failures under word search, but q08 was
+           missed by both.
