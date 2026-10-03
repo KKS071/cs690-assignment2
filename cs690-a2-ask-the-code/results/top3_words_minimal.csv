@@ -1,0 +1,47 @@
+id,question,expected_file,expected_function,retrieved,hit,hit_rank,valid_json,reply_answer,reply_file,reply_line,right_place,input_tokens,output_tokens,provider,model,price_input_per_mtok,price_output_per_mtok,raw_reply,correct
+q01,What User-Agent string does requests send by default?,utils.py,default_user_agent,utils.py::default_user_agent; utils.py::default_headers; adapters.py::HTTPAdapter.add_headers,yes,1,yes,python-requests/{version},utils.py,897,yes,380,31,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""python-requests/{version}"",
+  ""file"": ""utils.py"",
+  ""line"": 897
+}",yes
+q02,What character encoding does requests assume for a text response when the Content-Type header gives no charset?,utils.py,get_encoding_from_headers,utils.py::get_encoding_from_headers; models.py::Response.text; models.py::Response.json,yes,1,no,,,,no,1032,62,openai,gpt-5.6-luna,0.4,1.8,"{""answer"":""ISO-8859-1 for text responses; application/json defaults to UTF-8. If no matching Content-Type rule applies, Response.text guesses the encoding."",""file"":""utils.py lines 556-561; models.py lines 929-932"",""line"":""556-561""}",no
+q03,How does requests pick which proxy to use for a given URL?,utils.py,select_proxy,adapters.py::HTTPAdapter.proxy_manager_for; adapters.py::HTTPAdapter.get_connection_with_tls_context; adapters.py::HTTPAdapter.get_connection,no,,no,,,,no,1346,609,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""Requests does not choose a proxy in proxy_manager_for(); that method only creates or reuses a urllib3 proxy manager for a proxy URL that has already been selected. Selection happens in select_proxy(), called by get_connection_with_tls_context() at line 466 (or the deprecated get_connection() at line 516). It checks the proxy dictionary in this order: <URL scheme>_proxy, <URL scheme>, all_proxy, all. For an HTTPS URL, the order is therefore https_proxy, https, all_proxy, all. The first matching value is used. If no value matches, the request is sent directly. Proxy dictionaries may come from explicit request/session settings and, when trust_env=True, environment variables such as HTTP_PROXY, HTTPS_PROXY, ALL_PROXY, and NO_PROXY filtering. Once selected, the proxy is normalized with an http scheme if needed, validated, and passed to proxy_manager_for(), which caches a SOCKSProxyManager for SOCKS proxies or a urllib3 ProxyManager for other proxies."",
+  ""file"": ""requests/sessions.py (select_proxy is defined in requests.utils); requests/adapters.py"",
+  ""line"": ""requests/adapters.py:466-491 (selection and use); requests/adapters.py:278-300 (proxy-manager creation); deprecated path: 516-532""
+}",no
+q04,"When both the session and a single request set the same option, which one wins, and what happens if the request sets it to None?",sessions.py,merge_setting,adapters.py::HTTPAdapter.send; sessions.py::SessionRedirectMixin.resolve_redirects; adapters.py::HTTPAdapter.build_connection_pool_key_attributes,no,,no,,,,no,3016,608,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""The single-request option wins over the session option. If the request option is None, it is treated as unset, so the session-level value is used instead. For dictionary options, the values are merged, with request-level keys taking precedence; keys explicitly set to None are removed."",
+  ""file"": ""sessions.py"",
+  ""line"": ""merge_setting(), used by Session.merge_environment_settings()""
+}",no
+q05,"After a redirect, when does a POST request get turned into a GET?",sessions.py,SessionRedirectMixin.rebuild_method,sessions.py::SessionRedirectMixin.rebuild_method; api.py::request; api.py::post,yes,1,no,,,,no,1323,104,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""A POST request is changed to a GET during redirect handling when the redirect response has status code 303 (See Other), 302 (Found), or 301 (Moved Permanently). For 303 and 302, any method other than HEAD is changed to GET. For 301, only POST is changed to GET. Redirects are followed by default unless allow_redirects=False."",
+  ""file"": ""sessions.py"",
+  ""line"": ""340-351""
+}",no
+q06,How is the Authorization header value built for basic auth?,auth.py,_basic_auth_str,sessions.py::SessionRedirectMixin.rebuild_proxies; adapters.py::HTTPAdapter.proxy_headers; auth.py::HTTPBasicAuth.__call__,no,,no,,,,no,641,319,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""The value is built as `Basic <base64(username + \"":\"" + password)>`. In Requests, `_basic_auth_str(username, password)` converts string credentials to bytes using Latin-1, joins them with a colon, Base64-encodes the result, and prefixes it with `Basic `. For example, username `user` and password `pass` produce `Authorization: Basic dXNlcjpwYXNz`. The same helper is used for both the request `Authorization` header and proxy `Proxy-Authorization` headers."",
+  ""file"": ""requests/auth.py"",
+  ""line"": ""The `_basic_auth_str` helper, approximately lines 25–35; it is called at auth.py:95, sessions.py:329, and adapters.py:609.""
+}",no
+q07,How does requests raise an error for a 404 or 500 response?,models.py,Response.raise_for_status,models.py::Response.raise_for_status; models.py::Response.__init__; auth.py::HTTPDigestAuth.handle_401,yes,1,no,,,,no,1364,217,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""Requests does not raise an exception merely because it receives a 404 or 500 response. The response is created with status_code and reason initially set to None, then populated by the HTTP adapter. When you call response.raise_for_status(), it checks the status code: 400–499 produces an HTTPError message such as \""404 Client Error: Not Found for url: ...\"", while 500–599 produces a message such as \""500 Server Error: Internal Server Error for url: ...\"". It then raises HTTPError with the response attached via response=self. Example: `response = requests.get(url); response.raise_for_status()`."",
+  ""file"": ""models.py"",
+  ""line"": ""997-1024; Response.__init__ initializes status_code and reason at lines 663-664 and 687-688""
+}",no
+q08,"How does requests make header names case-insensitive, and how are they stored?",structures.py,CaseInsensitiveDict.__setitem__,adapters.py::HTTPAdapter.build_response; sessions.py::Session.__init__; models.py::Response.__init__,no,,no,,,,no,1615,265,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""Requests uses its `CaseInsensitiveDict` class to make header names case-insensitive. In `HTTPAdapter.build_response`, the urllib3 headers are wrapped with `CaseInsensitiveDict` at line 375. The dictionary normalizes header names for comparisons and lookups, typically by converting them to lowercase, so `response.headers['Content-Type']`, `response.headers['content-type']`, and other casing variants access the same value. Internally, it stores entries keyed by the lowercase form while retaining the most recently supplied original casing for iteration and display. Header values are not lowercased. Session headers are initialized using the same case-insensitive structure via `default_headers()`."",
+  ""file"": ""requests/adapters.py; requests/models.py; requests/sessions.py; requests/structures.py"",
+  ""line"": ""adapters.py:375; models.py:669; sessions.py:394; implementation in structures.py: CaseInsensitiveDict.__setitem__, __getitem__, and __iter__""
+}",no
+q09,"Which function lets me send a request with await, using async/await?",,,models.py::PreparedRequest.prepare_cookies; models.py::Response.iter_content; api.py::request,n/a,,yes,None of these functions supports await; api.py request() is synchronous. Use an async HTTP client such as aiohttp or httpx.AsyncClient.,api.py,14,no,1690,139,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""None of these functions supports await; api.py request() is synchronous. Use an async HTTP client such as aiohttp or httpx.AsyncClient."",
+  ""file"": ""api.py"",
+  ""line"": 14
+}",no
+q10,Where does requests store responses on disk so repeated requests are served from a cache?,,,adapters.py::HTTPAdapter.init_poolmanager; sessions.py::SessionRedirectMixin.get_redirect_target; utils.py::atomic_open,n/a,,yes,"Requests does not store HTTP responses on disk or cache repeated requests by default. HTTPAdapter.init_poolmanager creates in-memory connection pools for connection reuse, not a response cache. Disk caching requires an external library or custom implementation.",adapters.py,259,no,716,144,openai,gpt-5.6-luna,0.4,1.8,"{
+  ""answer"": ""Requests does not store HTTP responses on disk or cache repeated requests by default. HTTPAdapter.init_poolmanager creates in-memory connection pools for connection reuse, not a response cache. Disk caching requires an external library or custom implementation."",
+  ""file"": ""adapters.py"",
+  ""line"": 259
+}",no

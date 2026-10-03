@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "aab2a78093b34a974b1b87b17941917d",
+  "asked_at": "2026-10-03T02:41:19+00:00",
+  "input_tokens": 1364,
+  "output_tokens": 217,
+  "text": "{\n  \"answer\": \"Requests does not raise an exception merely because it receives a 404 or 500 response. The response is created with status_code and reason initially set to None, then populated by the HTTP adapter. When you call response.raise_for_status(), it checks the status code: 400–499 produces an HTTPError message such as \\\"404 Client Error: Not Found for url: ...\\\", while 500–599 produces a message such as \\\"500 Server Error: Internal Server Error for url: ...\\\". It then raises HTTPError with the response attached via response=self. Example: `response = requests.get(url); response.raise_for_status()`.\",\n  \"file\": \"models.py\",\n  \"line\": \"997-1024; Response.__init__ initializes status_code and reason at lines 663-664 and 687-688\"\n}"
+}

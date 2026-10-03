@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "c17e7bad821bd108871a8f046b516a2d",
+  "asked_at": "2026-10-03T02:40:55+00:00",
+  "input_tokens": 1032,
+  "output_tokens": 62,
+  "text": "{\"answer\":\"ISO-8859-1 for text responses; application/json defaults to UTF-8. If no matching Content-Type rule applies, Response.text guesses the encoding.\",\"file\":\"utils.py lines 556-561; models.py lines 929-932\",\"line\":\"556-561\"}"
+}

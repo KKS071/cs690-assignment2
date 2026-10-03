@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "381f866f411c9bb036d14f29712a2d3e",
+  "asked_at": "2026-10-03T02:41:03+00:00",
+  "input_tokens": 1346,
+  "output_tokens": 609,
+  "text": "{\n  \"answer\": \"Requests does not choose a proxy in proxy_manager_for(); that method only creates or reuses a urllib3 proxy manager for a proxy URL that has already been selected. Selection happens in select_proxy(), called by get_connection_with_tls_context() at line 466 (or the deprecated get_connection() at line 516). It checks the proxy dictionary in this order: <URL scheme>_proxy, <URL scheme>, all_proxy, all. For an HTTPS URL, the order is therefore https_proxy, https, all_proxy, all. The first matching value is used. If no value matches, the request is sent directly. Proxy dictionaries may come from explicit request/session settings and, when trust_env=True, environment variables such as HTTP_PROXY, HTTPS_PROXY, ALL_PROXY, and NO_PROXY filtering. Once selected, the proxy is normalized with an http scheme if needed, validated, and passed to proxy_manager_for(), which caches a SOCKSProxyManager for SOCKS proxies or a urllib3 ProxyManager for other proxies.\",\n  \"file\": \"requests/sessions.py (select_proxy is defined in requests.utils); requests/adapters.py\",\n  \"line\": \"requests/adapters.py:466-491 (selection and use); requests/adapters.py:278-300 (proxy-manager creation); deprecated path: 516-532\"\n}"
+}

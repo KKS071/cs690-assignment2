@@ -181,3 +181,66 @@ evidence:  HANDOUT Step 4 part B, answer.py rules 1 to 5; RUBRIC A4, A6
 risk:      Replies the public tests do not cover, such as a fence that is
            indented or a duplicate key, may be handled differently by the hidden
            tests.
+
+## Entry 8
+artifact:  results/top3_words_five_part.csv at commit df05f3a
+tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
+prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
+           prompts/five-part-v1.md
+review:    read all ten replies and marked the correct column against
+           questions.json: yes for q01, q02, q07, q09 and q10; no for q03, q04,
+           q05, q06 and q08
+checks:    python -m askcode.run_eval --search words --context top3 --prompt
+           five_part: valid JSON 10 of 10, right place 6 of 10,
+           16,913 input tokens, 385 output tokens, $0.0038
+evidence:  HANDOUT Step 5; RUBRIC B3, B5, C2
+risk:      one run only; a fresh run may answer differently. My marks are
+           judgment calls on partial answers, such as q05.
+dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
+result:    correct 5 of 10, 16,913 input tokens; results/top3_words_five_part.csv
+changed:   four of the five wrong answers (q03, q04, q06, q08) had the right
+           function missing from the top 3, so I treated them as retrieval
+           failures and did not reword the prompt; I will try meaning search
+           in Step 7 instead
+
+## Entry 9
+artifact:  results/gold_five_part.csv at commit df05f3a
+tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
+prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
+           prompts/five-part-v1.md
+review:    read all ten replies and marked the correct column against
+           questions.json: no for q05 only
+checks:    python -m askcode.run_eval --context gold --prompt five_part:
+           valid JSON 10 of 10, right place 10 of 10, 6,075 input tokens,
+           394 output tokens, $0.0017
+evidence:  HANDOUT Step 5 item 3; RUBRIC B3, B5, C2
+risk:      one run only. q06 left out the Latin-1 encoding step and I counted it
+           as correct because the main behavior was right.
+dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
+result:    correct 9 of 10, 6,075 input tokens; results/gold_five_part.csv
+changed:   gold answered q03, q04, q06 and q08 correctly, which confirms those
+           were retrieval failures in top3; q05 is still wrong with the right
+           code, so it is a generation failure
+
+## Entry 10
+artifact:  results/whole_five_part.csv at commit df05f3a
+tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-02
+prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
+           prompts/five-part-v1.md
+review:    read all ten replies and marked the correct column against
+           questions.json: no for q05 only
+checks:    python -m askcode.run_eval --context whole --prompt five_part --dry-run
+           estimated about 544,346 input tokens, about $0.1089; the real run:
+           valid JSON 10 of 10, right place 10 of 10, 549,048 input tokens,
+           400 output tokens, $0.1103
+evidence:  HANDOUT Step 5; RUBRIC B3, B5, C5
+risk:      one run only; the codebase is about 55,000 tokens, so this result may
+           not hold for a codebase too large to paste
+dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
+result:    correct 9 of 10, 549,048 input tokens, $0.1103;
+           results/whole_five_part.csv
+changed:   whole matched gold's 9 of 10 at about 90 times the input tokens, and
+           beat top3's 5 of 10 at about 32 times; I kept the prompt unchanged
+           and will use these numbers for the paste-or-search decision in the
+           report
+

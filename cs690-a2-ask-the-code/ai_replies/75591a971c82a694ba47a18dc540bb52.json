@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "75591a971c82a694ba47a18dc540bb52",
+  "asked_at": "2026-10-03T02:41:16+00:00",
+  "input_tokens": 641,
+  "output_tokens": 319,
+  "text": "{\n  \"answer\": \"The value is built as `Basic <base64(username + \\\":\\\" + password)>`. In Requests, `_basic_auth_str(username, password)` converts string credentials to bytes using Latin-1, joins them with a colon, Base64-encodes the result, and prefixes it with `Basic `. For example, username `user` and password `pass` produce `Authorization: Basic dXNlcjpwYXNz`. The same helper is used for both the request `Authorization` header and proxy `Proxy-Authorization` headers.\",\n  \"file\": \"requests/auth.py\",\n  \"line\": \"The `_basic_auth_str` helper, approximately lines 25–35; it is called at auth.py:95, sessions.py:329, and adapters.py:609.\"\n}"
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "2acee524cc48038a68814a02752298a0",
+  "asked_at": "2026-10-03T02:41:23+00:00",
+  "input_tokens": 1615,
+  "output_tokens": 265,
+  "text": "{\n  \"answer\": \"Requests uses its `CaseInsensitiveDict` class to make header names case-insensitive. In `HTTPAdapter.build_response`, the urllib3 headers are wrapped with `CaseInsensitiveDict` at line 375. The dictionary normalizes header names for comparisons and lookups, typically by converting them to lowercase, so `response.headers['Content-Type']`, `response.headers['content-type']`, and other casing variants access the same value. Internally, it stores entries keyed by the lowercase form while retaining the most recently supplied original casing for iteration and display. Header values are not lowercased. Session headers are initialized using the same case-insensitive structure via `default_headers()`.\",\n  \"file\": \"requests/adapters.py; requests/models.py; requests/sessions.py; requests/structures.py\",\n  \"line\": \"adapters.py:375; models.py:669; sessions.py:394; implementation in structures.py: CaseInsensitiveDict.__setitem__, __getitem__, and __iter__\"\n}"
+}

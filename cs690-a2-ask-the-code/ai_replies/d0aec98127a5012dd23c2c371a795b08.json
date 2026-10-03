@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "d0aec98127a5012dd23c2c371a795b08",
+  "asked_at": "2026-10-03T02:41:10+00:00",
+  "input_tokens": 3016,
+  "output_tokens": 608,
+  "text": "{\n  \"answer\": \"The single-request option wins over the session option. If the request option is None, it is treated as unset, so the session-level value is used instead. For dictionary options, the values are merged, with request-level keys taking precedence; keys explicitly set to None are removed.\",\n  \"file\": \"sessions.py\",\n  \"line\": \"merge_setting(), used by Session.merge_environment_settings()\"\n}"
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "a8f623790c1c56a93212fdfdbdd6c232",
+  "asked_at": "2026-10-03T02:41:28+00:00",
+  "input_tokens": 716,
+  "output_tokens": 144,
+  "text": "{\n  \"answer\": \"Requests does not store HTTP responses on disk or cache repeated requests by default. HTTPAdapter.init_poolmanager creates in-memory connection pools for connection reuse, not a response cache. Disk caching requires an external library or custom implementation.\",\n  \"file\": \"adapters.py\",\n  \"line\": 259\n}"
+}
