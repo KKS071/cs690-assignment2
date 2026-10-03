@@ -40,20 +40,28 @@ changed:   two misses were retrieval failures, so I looked at why word search mi
 ## My entries
 
 ## Entry 1
-
-Provider:		OPENAI
-Model:			gpt-5.6-luna
-Prices per 1M tokens:
-	Input:		$0.40
-	Output:		$1.80
-Pricing page:	https://developers.openai.com/api/docs/pricing
+artifact:  .env settings for the AI provider, model and prices (the file itself is
+           never committed)
+tool:      none; I set this up by hand following README.md and HANDOUT Step 0
+prompts:   none; no AI tool was used for this entry
+review:    Provider openai, model gpt-5.6-luna. I looked up the prices on the
+           provider's pricing page, https://developers.openai.com/api/docs/pricing:
+           $0.40 per million input tokens and $1.80 per million output tokens, and
+           put them in PRICE_INPUT_PER_MTOK and PRICE_OUTPUT_PER_MTOK. My first
+           experiment runs recorded $0.20 and $1.20 because of a wrong value in
+           .env; I corrected .env and reran from the saved replies (see the risk
+           lines of Entries 8 to 11).
+checks:    python -m askcode.check_setup: All checks passed, with the note
+           "$0.4 in and $1.8 out per million tokens"
+evidence:  HANDOUT Step 0; README Setup steps 1 to 5
+risk:      Prices change, so the costs in this assignment are only valid for the
+           prices above on the day I ran the experiments.
 
 ## Entry 2
-artifact: questions/questions.json at commit [SHA: 3cbf584]
-tool: Claude (claude.ai chat), Sonnet 5.5, 2026-10-02
-prompts: asked the assistant to suggest ten questions about requests, checked
-         against the corpus, and draft expected answers; prompts/questions-01.md
-
+artifact:  questions/questions.json at commit 3cbf584
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
+prompts:   asked the assistant to suggest ten questions about requests, checked
+           against the corpus, and draft expected answers; prompts/questions-01.md
 review:    The assistant proposed the ten questions, the target functions and
            draft expected answers. I read all eight target functions
            (utils.py: default_user_agent, get_encoding_from_headers,
@@ -68,15 +76,15 @@ checks:    sed -n on each function: all 8 found with the expected behavior;
            grep -rniE "cache|disk": only urllib3 pool docstrings, a comment at
            sessions.py:113, and atomic_open in utils.py, none a response cache;
            json.load of questions.json: ok;
-           pytest tests/test_questions.py: not run yet, needs split.py
+           pytest tests/test_questions.py -v: 4 passed (run after split.py existed)
 evidence:  HANDOUT Step 1; RUBRIC B1, B2; tests/test_questions.py
 risk:      sessions.py:113 mentions caching a redirect location on the response
            object, which I judged unrelated to q10. Questions came from an
            assistant, so they may be easier or harder than my own would be.
 
 ## Entry 3
-artifact:  askcode/split.py at commit [SHA: 2fe73b4]
-tool:      Claude (claude.ai chat), Sonnet 5.5, 2026-10-02
+artifact:  askcode/split.py at commit 2fe73b4
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
 prompts:   asked the assistant to implement split_file and split_corpus
            from the starter docstring and tests; prompts/split-01.md
 review:    The assistant drafted the implementation. I read it against rules 1
@@ -136,12 +144,12 @@ risk:      Only eight answerable questions, so one question moves the rate by
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
 result:    right function in the top 3 for 4 of 8 answerable questions (50%);
            results/retrieval_words.csv
-changed:   No change to search_words.py. I recorded q03, q04, q06 and q08 as retrieval
-           misses to label in the fault table in Step 5 and to compare against meaning 
-           search in Step 7.
+changed:   No change to search_words.py. I recorded q03, q04, q06 and q08 as
+           retrieval misses to label in the fault table in Step 5 and to
+           compare against meaning search in Step 7.
 
 ## Entry 6
-artifact:  askcode/prompt.py at commit [SHA: cefb948]
+artifact:  askcode/prompt.py at commit cefb948
 tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
 prompts:   asked the assistant to write build_prompt_five_part from the starter
            docstring and tests; prompts/five-part-v1.md
@@ -156,15 +164,15 @@ review:    The assistant drafted the system prompt and the builder. I read the
 checks:    pytest tests/test_prompt.py tests/test_answer.py -v: 22 passed;
            python -m askcode.run_eval --search words --context top3 --prompt
            five_part --dry-run: prompt printed for q01, estimate about 17,763
-           input tokens, about $0.0036 with openai gpt-5.6-luna
+           input tokens for the whole run
 evidence:  HANDOUT Step 4 part A, prompt.py requirements 1 to 6;
            RUBRIC A3, A6
-risk:      The prompt has not been run against the model yet, so I do not know
-           how well the rules and example work. The example uses a made-up file
-           and line the model may imitate.
+risk:      The prompt had not been run against the model when I wrote this
+           entry, so I did not yet know how well the rules and example work.
+           The example uses a made-up file and line the model may imitate.
 
 ## Entry 7
-artifact:  askcode/answer.py at commit [SHA: cefb948]
+artifact:  askcode/answer.py at commit cefb948
 tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
 prompts:   asked the assistant to write parse_reply from the starter docstring
            and tests; prompts/five-part-v1.md
@@ -192,10 +200,14 @@ review:    read all ten replies and marked the correct column against
            q05, q06 and q08
 checks:    python -m askcode.run_eval --search words --context top3 --prompt
            five_part: valid JSON 10 of 10, right place 6 of 10,
-           16,913 input tokens, 385 output tokens, $0.0038
+           16,913 input tokens, 385 output tokens, $0.0075
 evidence:  HANDOUT Step 5; RUBRIC B3, B5, C2
 risk:      one run only; a fresh run may answer differently. My marks are
-           judgment calls on partial answers, such as q05. The first commit of this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env. I corrected .env and reran from saved replies, so the submitted file (3431323) carries $0.40 and $1.80. No API call was repeated.
+           judgment calls on partial answers, such as q05. The first commit of
+           this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong
+           .env. I corrected .env and reran from saved replies, so the
+           submitted file (3431323) carries $0.40 and $1.80. No API call was
+           repeated.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
 result:    correct 5 of 10, 16,913 input tokens; results/top3_words_five_part.csv
 changed:   four of the five wrong answers (q03, q04, q06, q08) had the right
@@ -212,10 +224,14 @@ review:    read all ten replies and marked the correct column against
            questions.json: no for q05 only
 checks:    python -m askcode.run_eval --context gold --prompt five_part:
            valid JSON 10 of 10, right place 10 of 10, 6,075 input tokens,
-           394 output tokens, $0.0017
+           394 output tokens, $0.0031
 evidence:  HANDOUT Step 5 item 3; RUBRIC B3, B5, C2
 risk:      one run only. q06 left out the Latin-1 encoding step and I counted it
-           as correct because the main behavior was right. The first commit of this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env. I corrected .env and reran from saved replies, so the submitted file (3431323) carries $0.40 and $1.80. No API call was repeated.
+           as correct because the main behavior was right. The first commit of
+           this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong
+           .env. I corrected .env and reran from saved replies, so the
+           submitted file (3431323) carries $0.40 and $1.80. No API call was
+           repeated.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
 result:    correct 9 of 10, 6,075 input tokens; results/gold_five_part.csv
 changed:   gold answered q03, q04, q06 and q08 correctly, which confirms those
@@ -230,14 +246,17 @@ prompts:   the five-part prompt in askcode/prompt.py at commit cefb948;
 review:    read all ten replies and marked the correct column against
            questions.json: no for q05 only
 checks:    python -m askcode.run_eval --context whole --prompt five_part --dry-run
-           estimated about 544,346 input tokens, about $0.1089; the real run:
-           valid JSON 10 of 10, right place 10 of 10, 549,048 input tokens,
-           400 output tokens, $0.1103
+           estimated about 544,346 input tokens for the whole run; the real
+           run: valid JSON 10 of 10, right place 10 of 10, 549,048 input
+           tokens, 400 output tokens, $0.2203
 evidence:  HANDOUT Step 5; RUBRIC B3, B5, C5
 risk:      one run only; the codebase is about 55,000 tokens, so this result may
-           not hold for a codebase too large to paste. The first commit of this run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env. I corrected .env and reran from saved replies, so the submitted file (3431323) carries $0.40 and $1.80. No API call was repeated.
+           not hold for a codebase too large to paste. The first commit of this
+           run (df05f3a) recorded prices of $0.20 and $1.20 from a wrong .env.
+           I corrected .env and reran from saved replies, so the submitted file
+           (3431323) carries $0.40 and $1.80. No API call was repeated.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
-result:    correct 9 of 10, 549,048 input tokens, $0.1103;
+result:    correct 9 of 10, 549,048 input tokens, $0.2203;
            results/whole_five_part.csv
 changed:   whole matched gold's 9 of 10 at about 90 times the input tokens, and
            beat top3's 5 of 10 at about 32 times; I kept the prompt unchanged
@@ -255,12 +274,15 @@ review:    read all ten replies and marked the correct column: yes for q01
            file and line instead of nulls, which my answer key requires.
 checks:    python -m askcode.run_eval --search words --context top3 --prompt
            minimal: valid JSON 3 of 10, right place 1 of 10, 13,123 input
-           tokens, 2,498 output tokens, $0.0056
+           tokens, 2,498 output tokens, $0.0097
 evidence:  HANDOUT Step 6; RUBRIC B3, B5, C3
 risk:      one run only. My marking of q09 and q10 is strict; under a lenient
-           reading the correct count would be 3 of 10.
+           reading the correct count would be 3 of 10. The terminal output of
+           the first run showed $0.0056 because of the wrong prices in .env; I
+           corrected .env and reran from saved replies before committing, so
+           the committed file carries $0.40 and $1.80.
 dataset:   questions/questions.json at commit 3cbf584; corpus requests v2.32.3
-result:    correct 1 of 10, 13,123 input tokens, $0.0056;
+result:    correct 1 of 10, 13,123 input tokens, $0.0097;
            results/top3_words_minimal.csv
 changed:   the five-part prompt beat the minimal one on valid JSON (10 against
            3), right place (6 against 1) and correct (5 against 1), at a lower
@@ -312,3 +334,19 @@ result:    right function in the top 3 for 7 of 8 answerable questions (88%)
 changed:   none to the code or prompt. Meaning search recovered q03, q04 and
            q06, which were retrieval failures under word search, but q08 was
            missed by both.
+
+## Entry 14
+artifact:  REPORT.md at commit b97cb0f
+tool:      Claude (claude.ai chat), Claude Sonnet 5.5, 2026-10-02
+prompts:   asked the assistant to draft the report from my results;
+           prompts/report-01.md
+review:    The assistant drafted all five sections. I compared Tables 1 and 2
+           with python -m askcode.summary, checked each Section 1 evidence
+           sentence against the rows in results/top3_words_five_part.csv and
+           results/gold_five_part.csv, and checked the Section 4 ranks against
+           Table 4. Rewrote Sections 2 to 5 in my own words, kept the tables as printed.
+checks:    python -m askcode.summary: Tables 1 and 2 in REPORT.md match the
+           output row for row
+evidence:  HANDOUT Step 8; RUBRIC C1 to C5
+risk:      The explanations of why each search won in Section 4 are my
+           interpretation and were not tested.
