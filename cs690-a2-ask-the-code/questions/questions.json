@@ -1,16 +1,72 @@
 [
   {
-    "id": "example-1",
-    "question": "Does requests keep the Authorization header when a redirect goes from http to https on the same host?",
-    "expected_file": "sessions.py",
-    "expected_function": "SessionRedirectMixin.should_strip_auth",
-    "expected_answer": "Yes. For an http to https redirect on the same host with the standard ports, should_strip_auth returns False, so the header is kept (lines 137 to 143)."
+    "id": "q01",
+    "question": "What User-Agent string does requests send by default?",
+    "expected_file": "utils.py",
+    "expected_function": "default_user_agent",
+    "expected_answer": "It is the name 'python-requests' followed by a slash and the installed requests version, built as name/version (for example python-requests/2.32.3)."
   },
   {
-    "id": "example-2",
-    "question": "Which company pays for hosting the requests documentation?",
+    "id": "q02",
+    "question": "What character encoding does requests assume for a text response when the Content-Type header gives no charset?",
+    "expected_file": "utils.py",
+    "expected_function": "get_encoding_from_headers",
+    "expected_answer": "ISO-8859-1. If the Content-Type contains 'text' and has no charset parameter, the function returns ISO-8859-1 (for application/json it returns utf-8 instead)."
+  },
+  {
+    "id": "q03",
+    "question": "How does requests pick which proxy to use for a given URL?",
+    "expected_file": "utils.py",
+    "expected_function": "select_proxy",
+    "expected_answer": "It looks in the proxies dict for the first matching key in this order: scheme://hostname, scheme, all://hostname, then all, and returns that proxy, or None if nothing matches."
+  },
+  {
+    "id": "q04",
+    "question": "When both the session and a single request set the same option, which one wins, and what happens if the request sets it to None?",
+    "expected_file": "sessions.py",
+    "expected_function": "merge_setting",
+    "expected_answer": "The request's value wins. For dictionaries the two are merged with the request's keys overriding the session's, and any key whose merged value is None is removed."
+  },
+  {
+    "id": "q05",
+    "question": "After a redirect, when does a POST request get turned into a GET?",
+    "expected_file": "sessions.py",
+    "expected_function": "SessionRedirectMixin.rebuild_method",
+    "expected_answer": "On a 303 See Other or a 302 Found (any method except HEAD becomes GET), and on a 301 Moved Permanently when the method is POST."
+  },
+  {
+    "id": "q06",
+    "question": "How is the Authorization header value built for basic auth?",
+    "expected_file": "auth.py",
+    "expected_function": "_basic_auth_str",
+    "expected_answer": "The username and password are encoded as latin1, joined with a colon, base64-encoded, and prefixed with 'Basic ' to form the header string."
+  },
+  {
+    "id": "q07",
+    "question": "How does requests raise an error for a 404 or 500 response?",
+    "expected_file": "models.py",
+    "expected_function": "Response.raise_for_status",
+    "expected_answer": "raise_for_status raises an HTTPError with a message like '404 Client Error: reason for url: url' for status codes 400 to 499, and a 'Server Error' message for 500 to 599. Other status codes raise nothing."
+  },
+  {
+    "id": "q08",
+    "question": "How does requests make header names case-insensitive, and how are they stored?",
+    "expected_file": "structures.py",
+    "expected_function": "CaseInsensitiveDict.__setitem__",
+    "expected_answer": "It stores each entry in an internal dict under the lowercased key, with the value being a tuple of the original key and the value, so lookups use the lowercase key while the original casing is kept."
+  },
+  {
+    "id": "q09",
+    "question": "Which function lets me send a request with await, using async/await?",
     "expected_file": null,
     "expected_function": null,
-    "expected_answer": "The code cannot answer this. A correct reply says not found in the code shown, with null file and line."
+    "expected_answer": "requests is synchronous and has no async or await support anywhere in the code, so a correct reply says not found in the code shown, with null file and line."
+  },
+  {
+    "id": "q10",
+    "question": "Where does requests store responses on disk so repeated requests are served from a cache?",
+    "expected_file": null,
+    "expected_function": null,
+    "expected_answer": "requests does not cache responses on disk, so nothing in the code shown answers this; a correct reply says not found in the code shown, with null file and line."
   }
 ]
