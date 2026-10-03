@@ -1,8 +1,9 @@
 # Assignment 2 Report: Ask the Code
 
-Name: Kundan Singh
-Provider and model: OpenAI, gpt-5.6-luna
-Prices used (per million tokens, input and output), and the page you found them on: $0.40 input and $1.80 output, from https://developers.openai.com/api/docs/pricing
+Name: Kundan Singh  
+Provider and model: OpenAI, gpt-5.6-luna  
+Prices used (per million tokens, input and output), and the page you found them on:  
+$0.40 input and $1.80 output, from https://developers.openai.com/api/docs/pricing
 
 ## Table 1. Finding the right function
 
